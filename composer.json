@@ -1,0 +1,20 @@
+{
+    "name": "wireframe-framework/wireframe-twig-renderer",
+    "type": "pw-module",
+    "description": "Twig renderer for the Wireframe output framework.",
+    "keywords": [ "twig", "template", "framework", "processwire" ],
+    "homepage": "https://wireframe-framework.com",
+    "license": "MPL-2.0",
+    "authors": [
+        {
+            "name": "Teppo Koivula",
+            "homepage": "https://wireframe-framework.com",
+            "email": "teppo@wireframe-framework.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "wireframe-framework/processwire-composer-installer": "^1.0.0",
+        "twig/twig": "^3.0"
+    }
+}
