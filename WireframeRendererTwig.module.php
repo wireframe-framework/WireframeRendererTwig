@@ -5,7 +5,7 @@ namespace ProcessWire;
 /**
  * Wireframe Renderer Twig
  *
- * @version 0.0.1
+ * @version 0.1.0
  * @author Teppo Koivula <teppo@wireframe-framework.com>
  * @license Mozilla Public License v2.0 https://mozilla.org/MPL/2.0/
  */
@@ -52,26 +52,51 @@ class WireframeRendererTwig extends Wire implements Module {
      */
     public function ___init(array $settings = []): WireframeRendererTwig {
 
+        // optionally override the default file extension
+        if (!empty($settings['ext'])) {
+            $this->ext = $settings['ext'];
+        }
+
         // autoload Twig classes
-        if (!class_exists('\Twig\Filesystemloader')) {
+        if (!class_exists('\Twig\FilesystemLoader')) {
             require_once(__DIR__ . '/vendor/autoload.php' /*NoCompile*/);
         }
 
-        // init Twig FilesystemLoader and add Wireframe paths
-        $this->loader = new \Twig\Loader\FilesystemLoader();
-        foreach ($this->wire('modules')->get('Wireframe')->getViewPaths() as $type => $path) {
-            $this->loader->addPath($path, $type);
-        }
+        // init Twig Loader and Environment
+        $this->loader = $this->initLoader($settings['loader'] ?? []);
+        $this->twig = $this->initTwig($settings['environment'] ?? []);
 
-        // init Twig Environment
-        $this->twig = new \Twig\Environment($this->loader, array_merge([
+        return $this;
+    }
+
+    /**
+     * Init Twig FilesystemLoader
+     *
+     * @param array $settings Twig Loader settings (optional).
+     * @return \Twig\Loader\FilesystemLoader
+     */
+    public function ___initLoader(array $settings = []): \Twig\Loader\FilesystemLoader {
+        $wireframe = $this->wire('modules')->get('Wireframe');
+        $loader = new \Twig\Loader\FilesystemLoader($wireframe->paths->partials);
+        foreach ($wireframe->getViewPaths() as $type => $path) {
+            $loader->addPath($path, $type);
+        }
+        return $loader;
+    }
+
+    /**
+     * Init Twig Environment
+     *
+     * @param array $settings Twig Environment settings (optional).
+     * @return \Twig\Environment
+     */
+    public function ___initTwig(array $settings = []): \Twig\Environment {
+        return (new \Twig\Environment($this->loader, array_merge([
             'autoescape' => 'name',
             'auto_reload' => true,
             'cache' => $this->wire('config')->paths->cache . '/WireframeRendererTwig',
             'debug' => $this->wire('config')->debug,
-        ], $settings['environment'] ?? []));
-
-        return $this;
+        ], $settings['environment'] ?? [])));
     }
 
     /**
