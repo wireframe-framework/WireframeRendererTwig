@@ -14,16 +14,16 @@ the bootstrap file (wireframe.php) and instruct Wireframe to use the Twig render
 // during Wireframe init (this is the preferred way):
 $wireframe->init([
     'renderer' => ['WireframeRendererTwig', [
-		'environment' => [
-			'autoescape' => true, // just an example (this is the default value)
-		],
-		'ext' => 'twig', // file extension ('twig' is the default value)
-	]],
+        'environment' => [
+            'autoescape' => true, // just an example (this is the default value)
+        ],
+        'ext' => 'twig', // file extension ('twig' is the default value)
+    ]],
 ]);
 
 // ... or after init (this incurs a slight overhead):
 $wireframe->setRenderer('WireframeRendererTwig', [
-	// optional settings array
+    // optional settings array
 ]);
 ```
 
@@ -63,9 +63,9 @@ by hooking into `WireframeRendererTwig::initTwig`:
 ```php
 // site/ready.php
 $wire->addHookAfter('WireframeRendererTwig::initTwig', function(HookEvent $event) {
-	$event->return->addFunction(new \Twig\TwigFunction('hello', function ($value) {
+    $event->return->addFunction(new \Twig\TwigFunction('hello', function ($value) {
         return "hello " . $value;
-	}));
+    }));
 });
 ```
 
