@@ -15,7 +15,7 @@ the bootstrap file (wireframe.php) and instruct Wireframe to use the Twig render
 $wireframe->init([
     'renderer' => ['WireframeRendererTwig', [
         'environment' => [
-            'autoescape' => true, // just an example (this is the default value)
+            'autoescape' => 'name', // just an example (this is the default value)
         ],
         'ext' => 'twig', // file extension ('twig' is the default value)
     ]],
