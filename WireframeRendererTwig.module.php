@@ -91,12 +91,16 @@ class WireframeRendererTwig extends Wire implements Module {
      * @return \Twig\Environment
      */
     public function ___initTwig(array $settings = []): \Twig\Environment {
-        return (new \Twig\Environment($this->loader, array_merge([
+        $twig = (new \Twig\Environment($this->loader, array_merge([
             'autoescape' => 'name',
             'auto_reload' => true,
             'cache' => $this->wire('config')->paths->cache . '/WireframeRendererTwig',
             'debug' => $this->wire('config')->debug,
         ], $settings['environment'] ?? [])));
+        if ($this->wire('config')->debug) {
+            $twig->addExtension(new \Twig\Extension\DebugExtension());
+        }
+        return $twig;
     }
 
     /**
