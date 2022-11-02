@@ -14,7 +14,7 @@ class ComposerStaticInit449b61219cebfddb69b5d433eee8777f
     public static $prefixLengthsPsr4 = array (
         'w' => 
         array (
-            'wireframe\\' => 10,
+            'wireframe\\ComposerInstaller\\' => 28,
         ),
         'T' => 
         array (
@@ -28,9 +28,9 @@ class ComposerStaticInit449b61219cebfddb69b5d433eee8777f
     );
 
     public static $prefixDirsPsr4 = array (
-        'wireframe\\' => 
+        'wireframe\\ComposerInstaller\\' => 
         array (
-            0 => __DIR__ . '/..' . '/wireframe-framework/processwire-composer-installer/src',
+            0 => __DIR__ . '/..' . '/wireframe-framework/processwire-composer-installer/src/ComposerInstaller',
         ),
         'Twig\\' => 
         array (
@@ -56,12 +56,17 @@ class ComposerStaticInit449b61219cebfddb69b5d433eee8777f
         ),
     );
 
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit449b61219cebfddb69b5d433eee8777f::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit449b61219cebfddb69b5d433eee8777f::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit449b61219cebfddb69b5d433eee8777f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit449b61219cebfddb69b5d433eee8777f::$classMap;
 
         }, null, ClassLoader::class);
     }

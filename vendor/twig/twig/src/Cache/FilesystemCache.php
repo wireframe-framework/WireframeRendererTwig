@@ -18,7 +18,7 @@ namespace Twig\Cache;
  */
 class FilesystemCache implements CacheInterface
 {
-    const FORCE_BYTECODE_INVALIDATION = 1;
+    public const FORCE_BYTECODE_INVALIDATION = 1;
 
     private $directory;
     private $options;
@@ -31,14 +31,14 @@ class FilesystemCache implements CacheInterface
 
     public function generateKey(string $name, string $className): string
     {
-        $hash = hash('sha256', $className);
+        $hash = hash(\PHP_VERSION_ID < 80100 ? 'sha256' : 'xxh128', $className);
 
         return $this->directory.$hash[0].$hash[1].'/'.$hash.'.php';
     }
 
     public function load(string $key): void
     {
-        if (file_exists($key)) {
+        if (is_file($key)) {
             @include_once $key;
         }
     }
@@ -63,7 +63,7 @@ class FilesystemCache implements CacheInterface
 
             if (self::FORCE_BYTECODE_INVALIDATION == ($this->options & self::FORCE_BYTECODE_INVALIDATION)) {
                 // Compile cached file into bytecode cache
-                if (\function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN)) {
+                if (\function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN)) {
                     @opcache_invalidate($key, true);
                 } elseif (\function_exists('apc_compile_file')) {
                     apc_compile_file($key);
@@ -78,7 +78,7 @@ class FilesystemCache implements CacheInterface
 
     public function getTimestamp(string $key): int
     {
-        if (!file_exists($key)) {
+        if (!is_file($key)) {
             return 0;
         }
 

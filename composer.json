@@ -16,5 +16,11 @@
         "php": ">=7.2",
         "wireframe-framework/processwire-composer-installer": "^1.0.0",
         "twig/twig": "^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "hari/pw-module": true,
+            "wireframe-framework/processwire-composer-installer": true
+        }
     }
 }
