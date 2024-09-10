@@ -5,7 +5,7 @@ namespace ProcessWire;
 /**
  * Wireframe Renderer Twig
  *
- * @version 0.1.1
+ * @version 0.1.2
  * @author Teppo Koivula <teppo@wireframe-framework.com>
  * @license Mozilla Public License v2.0 https://mozilla.org/MPL/2.0/
  */
